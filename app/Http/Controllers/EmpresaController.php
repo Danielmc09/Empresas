@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Companies;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EmpresaController extends Controller
 {
@@ -13,7 +15,8 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        return view('empresa.index');
+        $datos=Companies::all();
+        return view('empresa.index',compact('datos'));
     }
 
     /**
@@ -23,7 +26,7 @@ class EmpresaController extends Controller
      */
     public function create()
     {
-        //
+        return view('empresa.create');
     }
 
     /**
@@ -34,18 +37,14 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $datosEmpresa=request()->except('_token');
+        if($request->hasFile('logo')){
+            $datosEmpresa['logo']=$request->file('logo')->store('upload','public');
+        }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        Companies::insert($datosEmpresa);
+
+        return redirect()->route('empresa.index');
     }
 
     /**
@@ -56,7 +55,9 @@ class EmpresaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $compani=Companies::findOrFail($id);
+
+        return view('empresa.edit',compact('compani'));
     }
 
     /**
@@ -68,7 +69,22 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $datosEmpresa=request()->except(['_token','_method']);
+
+        if($request->hasFile('logo')){
+
+            $compani= Companies::findOrFail($id);
+
+            Storage::delete('public/.$compani->logo');
+
+            $datosEmpresa['logo']=$request->file('logo')->store('upload','public');
+        }
+
+        Companies::where('id','=',$id)->update($datosEmpresa);
+        
+        $compani= Companies::findOrFail($id);
+
+        return redirect()->route('empresa.index',compact('compani'));
     }
 
     /**
@@ -79,6 +95,7 @@ class EmpresaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $compani= Companies::findOrFail($id)->delete();
+        return redirect()->route('empresa.index',compact('compani'));
     }
 }
