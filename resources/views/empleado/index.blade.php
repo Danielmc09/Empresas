@@ -49,6 +49,9 @@
                        @endforeach
                     </tbody>
                 </table>
+                <div class="pull-right ">
+                    {{ $datos->links() }}
+                </div>
             </div>
         </div>
     </div> 
