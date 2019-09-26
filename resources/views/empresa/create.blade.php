@@ -1,5 +1,8 @@
 @extends('theme.layouts')
 @section('title','Crear Empresa')
+@section('scripts')
+<script src="{{asset('assets/pages/crear.js')}}"></script>
+@endsection
 @section('content')
 <div class="row">
     <div class="col-lg-12">
@@ -24,17 +27,17 @@
                             </div>
                             <div class="form-group">
                                 <label>Website</label>
-                                <input type="text" name="website" class="form-control" style="width: 100%;" value="{{old('website')}}" required>
+                                <input type="text" name="website" class="form-control" style="width: 100%;" value="{{old('website')}}">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Correo</label>
-                                <input type="email" name="email" class="form-control" style="width: 100%;" value="{{old('email')}}" required>
+                                <input type="email" name="email" class="form-control" style="width: 100%;" value="{{old('email')}}">
                             </div>
                             <div class="form-group">
                                 <label>Logo</label>
-                                <input type="file" name="logo" style="width: 100%;" value="{{old('logo')}}" required>
+                                <input type="file" name="logo" style="width: 100%;" value="{{old('logo')}}">
                             </div>
                         </div>
                     </div>  

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Validacionemployees;
+use App\Models\Companies;
+use App\Models\Employees;
 use Illuminate\Http\Request;
 
 class EmpleadoController extends Controller
@@ -13,7 +16,8 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        return view('empleado.index');
+        $datos=Employees::all();
+        return view('empleado.index',compact('datos'));
     }
 
     /**
@@ -23,7 +27,8 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        return view('empleado.create');
+        $compa = Companies::all();
+        return view('empleado.create',compact('compa'));
     }
 
     /**
@@ -32,20 +37,10 @@ class EmpleadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Validacionemployees $request)
     {
-        return 'Ok';
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        Employees::create($request->all());
+        return redirect()->route('empleado.index')->with('mensaje', 'Empleado creado con exito');
     }
 
     /**
@@ -56,7 +51,9 @@ class EmpleadoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $empleado = Employees::find($id);
+        $compa = Companies::all();
+        return view('empleado.edit',compact('empleado','compa'));
     }
 
     /**
@@ -66,9 +63,10 @@ class EmpleadoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Validacionemployees $request, $id)
     {
-        //
+        Employees::findOrFail($id)->update($request->all());
+        return redirect()->route('empleado.index')->with('mensaje', 'Empleado creado con exito');
     }
 
     /**
@@ -79,6 +77,7 @@ class EmpleadoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $empleado = Employees::find($id)->delete();
+        return redirect()->route('empleado.index');
     }
 }

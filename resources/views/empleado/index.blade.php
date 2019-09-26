@@ -1,8 +1,5 @@
 @extends('theme.layouts')
 @section('title','Listar Empresas')
-@section('scripts')
-<script src="{{asset("assets/pages/index.js")}}" type="text/javascript"></script>
-@endsection
 @section('content')
 <div class="row">
     <div class="col-lg-12">
@@ -11,7 +8,7 @@
             <div class="box-header with-border">
                 <h1 class="text-center text-info">Listado de Empresas</h1>
                 <div class="box-tools pull-right">
-                    <a href="#" class="btn btn-block btn-success btn-sm">
+                    <a href="{{Route('empleado.create')}}" class="btn btn-block btn-success btn-sm">
                         <i class="fa fa-fw fa-plus-circle"></i>Nuevo Registro
                     </a>
                 </div>
@@ -30,17 +27,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                      
+                      @foreach($datos as $row)
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$row->first_name}}</td>
+                            <td>{{$row->last_name}}</td>
+                            <td>{{$row->companies->name}}</td>
+                            <td>{{$row->email}}</td>
+                            <td>{{$row->phone}}</td>
                             <td>
-                                <a href="#" class="btn-accion-tabla" title="Editar este registro"><i class="fa fa-fw fa-pencil"></i></a>
-                                <form action="#" class="d-inline form-eliminar" method="POST">
+                                <a href="{{Route('empleado.edit',$row->id)}}" class="btn-accion-tabla" title="Editar este registro"><i class="fa fa-fw fa-pencil"></i></a>
+                                <form action="{{Route('empleado.destroy',$row->id)}}" class="d-inline form-eliminar" method="POST">
                                     @csrf
                                     @method("DELETE")
                                     <button type="submit" class="btn-accion-tabla eliminar tooltipsC" title="Eliminar este registro">
@@ -49,7 +46,7 @@
                                 </form>
                             </td>
                         </tr>
-                       
+                       @endforeach
                     </tbody>
                 </table>
             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Validacioncompanies;
 use App\Models\Companies;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -35,7 +36,7 @@ class EmpresaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Validacioncompanies $request)
     {
         $datosEmpresa=request()->except('_token');
         if($request->hasFile('logo')){
@@ -44,7 +45,7 @@ class EmpresaController extends Controller
 
         Companies::insert($datosEmpresa);
 
-        return redirect()->route('empresa.index');
+        return redirect()->route('empresa.index')->with('mensaje', 'Empresa creada con exito');
     }
 
     /**
@@ -57,7 +58,7 @@ class EmpresaController extends Controller
     {
         $compani=Companies::findOrFail($id);
 
-        return view('empresa.edit',compact('compani'));
+        return view('empresa.edit',compact('compani')); 
     }
 
     /**
@@ -67,7 +68,7 @@ class EmpresaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Validacioncompanies $request, $id)
     {
         $datosEmpresa=request()->except(['_token','_method']);
 
@@ -84,7 +85,7 @@ class EmpresaController extends Controller
         
         $compani= Companies::findOrFail($id);
 
-        return redirect()->route('empresa.index',compact('compani'));
+        return redirect()->route('empresa.index',compact('compani'))->with('mensaje', 'Empresa actualizada con exito');
     }
 
     /**

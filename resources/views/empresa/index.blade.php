@@ -1,8 +1,5 @@
 @extends('theme.layouts')
 @section('title','Listar Empresas')
-@section('scripts')
-<script src="{{asset("assets/pages/index.js")}}" type="text/javascript"></script>
-@endsection
 @section('content')
 <div class="row">
     <div class="col-lg-12">

@@ -24,8 +24,8 @@ class Validacionemployees extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required',
-            'last_name' => 'required'
+            'first_name' => 'required|max:30',
+            'last_name' => 'required|max:30'
         ];
     }
 }
