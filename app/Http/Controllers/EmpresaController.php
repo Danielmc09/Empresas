@@ -6,6 +6,8 @@ use App\Http\Requests\Validacioncompanies;
 use App\Models\Companies;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MessageReceived;
 
 class EmpresaController extends Controller
 {
@@ -44,6 +46,8 @@ class EmpresaController extends Controller
         }
 
         Companies::insert($datosEmpresa);
+
+        Mail::to('admendieta9@misena.edu.co')->send(new MessageReceived($datosEmpresa));
 
         return redirect()->route('empresa.index')->with('mensaje', 'Empresa creada con exito');
     }

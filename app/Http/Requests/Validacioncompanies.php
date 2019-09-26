@@ -26,6 +26,7 @@ class Validacioncompanies extends FormRequest
         return [
                 'name' => 'required|max:50|unique:companies,name,' . $this->route('id')
         ];
+
     }
     
 }
